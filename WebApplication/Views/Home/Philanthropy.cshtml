@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Philanthropy and Fundraising";
+}
+<div id="form">
+    <div class="panel panel-default noPrint">
+        <div id="intent" class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-intent">Intent - What is the intent of the philanthropy and fundraising?</a>
+                <span data-bind="'visible':intentVM.isComplete" class="pull-right glyphicon glyphicon-ok"></span>
+            </h4>
+        </div>
+        <div id="collapse-intent" class="panel-collapse collapse">
+            <div class="panel-body">
+                <label>Socio-economic priority:</label><br />
+                <textarea cols="55" rows="3" data-bind="value: intentVM.socioeconomic, valueUpdate: 'keyup'" id="socioeconomic" placeholder="Please record the intent here"></textarea><br />
+                <label>Impact and timeframe:</label> <br />
+                <textarea cols="55" rows="3" data-bind="value: intentVM.impact, valueUpdate: 'keyup'" id="impact" placeholder="Please record the intent here"></textarea><br />
+                <label>Artistic/cultural positioning:</label> <br />
+                <textarea cols="55" rows="3" data-bind="value: intentVM.artistic, valueUpdate: 'keyup'" id="artistic" placeholder="Please record the intent here"></textarea><br />
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default noPrint">
+        <div id="themes" class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-themes">Themes - What are the themes for the philanthropy and fundraising?</a>
+                <span data-bind="visible:themesVM.isComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+            </h4>
+        </div>
+        <div id="collapse-themes" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul class="list-group" data-bind="foreach: themesVM.themes">
+                    <li class="list-group-item">
+                        <label>Theme <span data-bind="text:$index() + 1"></span></label>
+                        <select id="themeType" data-bind="value: $data.type, valueUpdate: 'keyup'">
+                            <option value="">--</option>
+                            <option value="Target Market">Target Market</option>
+                            <option value="Core Service">Core Service</option>
+                            <option value="Infrastructure Support">Infrastructure Support</option>
+                        </select><br />
+                        <textarea cols="55" rows="1" data-bind="value: $data.description, valueUpdate: 'keyup', attr: { id: 'description-' + $index()}" placeholder="Please explain Priority Theme"></textarea>
+                        <a title="Remove Priority Theme" data-bind="click: $root.themesVM.RemoveTheme, visible: $index() > 0">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                        </a>
+                    </li>
+                </ul>
+                <button type="button" title="Add New Priority Theme" class="pull-right btn btn-default" data-bind="click: themesVM.AddTheme">
+                    Add New Priority Theme
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default noPrint">
+        <div id="funding" class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-funding">Funding - What are the funding sources that are available to fund the themes?</a>
+                <span data-bind="visible:themesVM.isFundingComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+            </h4>
+        </div>
+        <div id="collapse-funding" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div data-bind="foreach: themesVM.themes">
+                    <fieldset data-bind="visible: description().length > 3">
+                        <legend><span data-bind="text: type"></span>: <span data-bind="text: $data.description"></span></legend>
+                        {% for source in funding_sources %}
+                        {% set short_source = source.split(' ', 1)[0].lower() %}
+                        <label>{{ source }}</label>
+                        <input type="checkbox" data-bind="checked: fundingSources['{{ short_source }}'].isSource" /><br />
+                        <div data-bind="visible: fundingSources['{{ short_source }}'].isSource">
+                            <textarea cols="55" rows="3"
+                                      data-bind="value: fundingSources['{{ short_source }}'].source, valueUpdate: 'keyup', attr: { id: '{{ short_source }}-' + $index() }"
+                                      placeholder="Please explain how the funding source could address the theme"></textarea>
+                        </div>
+                        {% endfor %}
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default noPrint">
+        <div id="constraints" class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-constraints">Constraints - What are the constraints which may impact the fundraising activity?</a>
+                <span data-bind="visible:themesVM.isConstraintsComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+            </h4>
+        </div>
+        <div id="collapse-constraints" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div data-bind="foreach: themesVM.themes">
+                    <fieldset data-bind="visible: description().length > 3">
+                        <legend><span data-bind="text: type"></span>: <span data-bind="text: description"></span></legend>
+                        <label>Operational:</label><br />
+                        <input type="radio" name="is-constraint-operational" data-bind="checked: isConstraintOperational, attr: { id: 'operational-yes-' + $index()}" value="Yes">Yes
+                        <input type="radio" name="is-constraint-operational" data-bind="checked: isConstraintOperational, attr: { id: 'operational-no-' + $index()}" value="No">No<br />
+                        <textarea cols="55" rows="3" data-bind="value: constraintOperational, valueUpdate: 'keyup', visible: isConstraintOperational, attr: { id: 'operational-' + $index()}"></textarea><br />
+                        <label>Financial:</label><br />
+                        <input type="radio" name="is-constraint-financial" data-bind="checked: isConstraintFinancial, attr: { id: 'financial-yes-' + $index()}" value="Yes">Yes
+                        <input type="radio" name="is-constraint-financial" data-bind="checked: isConstraintFinancial, attr: { id: 'financial-no-' + $index()}" value="No">No<br />
+                        <textarea cols="55" rows="3" id="financial" data-bind="value: constraintFinancial, valueUpdate: 'keyup', visible: isConstraintFinancial, attr: { id: 'financial-' + $index()}"></textarea><br />
+                        <label>Political:</label><br />
+                        <input type="radio" name="is-constraint-political" data-bind="checked: isConstraintPolitical, attr: { id: 'political-yes-' + $index()}" value="Yes">Yes
+                        <input type="radio" name="is-constraint-political" data-bind="checked: isConstraintPolitical, attr: { id: 'political-no-' + $index()}" value="No">No<br />
+                        <textarea cols="55" rows="3" id="political" data-bind="value: constraintPolitical, valueUpdate: 'keyup', visible: isConstraintPolitical, attr: { id: 'political-' + $index()}"></textarea><br />
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default noPrint">
+        <div id="action" class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-action">Action - What are the actions required to progress this?</a>
+                <span data-bind="visible:themesVM.isActionComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+            </h4>
+        </div>
+        <div id="collapse-action" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div data-bind="foreach: themesVM.themes">
+                    <fieldset data-bind="visible: description().length > 3">
+                        <legend><span data-bind="text: type"></span>: <span data-bind="text: description"></span></legend>
+                        <label>Vision:</label><br />
+                        <textarea cols="55" rows="3" data-bind="value: actionVision, valueUpdate: 'keyup',  attr: { id: 'vision-' + $index()}" placeholder="What is the key sales line to make people enthused with doing this?"></textarea><br />
+                        <label>First Steps:</label><br />
+                        <textarea cols="55" rows="3" data-bind="value: actionFirstSteps, valueUpdate: 'keyup',  attr: { id: 'first-' + $index()}" placeholder="What are the first things they need to do to start it off?"></textarea><br />
+                        <label>Discomfort:</label><br />
+                        <textarea cols="55" rows="3" data-bind="value: actionDiscomfort, valueUpdate: 'keyup',  attr: { id: 'discomfort-' + $index()}" placeholder="How do they make whoever is comfortable with not doing it uncomfortable with the status quo?"></textarea><br />
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section print 
+{
+    @Html.Partial("philanthropyPrint")
+}
+@section help 
+{
+    @Html.Partial("philanthropyHelp")
+}

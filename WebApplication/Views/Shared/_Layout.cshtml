@@ -1,0 +1,89 @@
+﻿@using WebApplication.Helpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="shortcut icon" href="~/favicon.png">
+</head>
+<body>
+    <nav class="navbar navbar-default noPrint" role="navigation">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Black Radley Toolkits</a>
+        </div>
+        <!-- Navigation links -->
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="@Html.IsSelected(action: "Philanthropy")">@Html.ActionLink("Philanthropy", "Philanthropy", "Home")</li>
+                <li class="@Html.IsSelected(action: "Enterprise")">@Html.ActionLink("Enterprise", "Enterprise", "Home")</li>
+                <li class="@Html.IsSelected(action: "Assets")">@Html.ActionLink("Assets", "Assets", "Home")</li>
+                <li class="@Html.IsSelected(action: "Exhibitions")">@Html.ActionLink("Exhibitions", "Exhibitions", "Home")</li>
+            </ul>
+        </div>
+        <!-- Navigation links -->
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="bs-header" id="content">
+                <div class="container">
+                    <h1>@ViewBag.Title</h1>
+                </div>
+            </div>
+            <div class="panel-group col-md-8" id="accordion">
+                @RenderBody()
+                @RenderSection("print", false)
+            </div>
+            <div id="help" class="col-md-4 noPrint">
+                <div>
+                    <div class="panel panel-primary help-panel">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Help</h3>
+                        </div>
+                        <div class="panel-body">
+                            @RenderSection("help", false)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- /container -->
+    <footer class="noPrint">
+        <div class="container">
+            <ul>
+                <li><a href="http://www.blackradley.com/about">About Black Radley</a></li>
+                <li><a href="https://github.com/blackradley/moelydd">Source Code</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+    if (jQuery.cookie('cc_cookie_accept') == "cc_cookie_accept") {
+    	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	    		  ga('create', 'UA-21860708-9', 'blackradley.com');
+	    		  ga('send', 'pageview');
+		}
+
+    jQuery(function($){
+		$.cookieCuttr();
+    });
+    </script>
+</body>
+</html>

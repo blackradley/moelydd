@@ -1,6 +1,7 @@
 *.suo
 *.user
 web_app/obj/
+WebApplication/obj/
 /packages/
 
 *.py[cod]

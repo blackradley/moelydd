@@ -1,0 +1,23 @@
+﻿@media print {
+    .noPrint { display: none; }
+}
+
+@media screen {
+    .noShow { display: none; }
+}
+
+span.glyphicon-ok {
+    font-size: 0.8em;
+    color: green;
+}
+
+span.glyphicon-remove-circle {
+	font-size: 1.8em;
+    color: red;
+}
+
+div.help-text {
+	display: none;
+	height: 300px;
+    overflow-y: auto;
+}
