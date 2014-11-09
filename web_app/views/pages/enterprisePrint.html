@@ -1,0 +1,75 @@
+<div class="noPrint pull-right">
+  <a id="toggleDocument" data-document="Return to Form" data-form="View Document" href="#">View Document</a>
+</div>
+<div id="document" class="noShow">
+  <h2>Intent</h2>
+  <table>
+    <tr>
+      <td>Socio-economic priority:</td>
+      <td><span data-bind="text: intentVM.socioeconomic"></span></td>
+    </tr>
+    <tr>
+      <td>Impact and timeframe:</td>
+      <td><span data-bind="text: intentVM.impact"></span></td>
+    </tr>
+    <tr>
+      <td>Artistic/cultural positioning:</td>
+      <td><span data-bind="text: intentVM.artistic"></span></td>
+    </tr>
+  </table>
+  <h2>Commercial Analysis</h2>
+  <div data-bind="foreach: opportunitiesVM.opportunities">
+    <h3>
+      Opportunity <span data-bind="text:$index() + 1"></span> <span data-bind="text: description"></span>
+    </h3>
+    <h4>Resources</h4>
+    <table>
+      <tr>
+        <td>Assets:</td>
+        <td data-bind="text: assets" ></td>
+      </tr>
+      <tr>
+        <td>Staff:</td>
+        <td data-bind="text: staff" ></td>
+      </tr>
+      <tr>
+        <td>Information:</td>
+        <td data-bind="text: information" ></td>
+      </tr>
+      <tr>
+        <td>Support:</td>
+        <td data-bind="text: support" ></td>
+      </tr>
+    </table>
+    <h4>Priorities</h4>
+    <table>
+      <tr>
+        <td>Operational</td>
+        <td data-bind="text: constraintOperational" ></td>
+      </tr>
+      <tr>
+        <td>Financial:</td>
+        <td data-bind="text: constraintFinancial" ></td>
+      </tr>
+      <tr>
+        <td>Political:</td>
+        <td data-bind="text: constraintPolitical" ></td>
+      </tr>
+    </table>
+    <h4>Action Plan</h4>
+    <table>
+      <tr>
+        <td>Vision:</td>
+        <td data-bind="text: actionVision" ></td>
+      </tr>
+      <tr>
+        <td>First Steps:</td>
+        <td data-bind="text: actionFirstSteps" ></td>
+      </tr>
+      <tr>
+        <td>Discomfort:</td>
+        <td data-bind="text: actionDiscomfort" ></td>
+      </tr>
+    </table>
+  </div>
+</div>

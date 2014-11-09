@@ -1,0 +1,59 @@
+<div class="noPrint pull-right">
+  <a id="toggleDocument" data-document="Return to Form" data-form="View Document" href="#">View Document</a>
+</div>
+<div id="document" class="noShow">
+  <h2>Intent</h2>
+  <table>
+    <tr>
+      <td>Socio-economic priority:</td>
+      <td><span data-bind="text: intentVM.socioeconomic"></span></td>
+    </tr>
+    <tr>
+      <td>Impact and timeframe:</td>
+      <td><span data-bind="text: intentVM.impact"></span></td>
+    </tr>
+    <tr>
+      <td>Artistic/cultural positioning:</td>
+      <td><span data-bind="text: intentVM.artistic"></span></td>
+    </tr>
+  </table>
+  <div data-bind="foreach: customerGroupsVM.customerGroups">
+    <h2><span data-bind="text: description"></span></h2>
+    <div data-bind="foreach: $data.collectionsOfInterest">
+      <h3>Collection <span data-bind="text:$index() + 1"> <span data-bind="text: description"></span></h3>
+      <h4>Constraints</h4>
+      <table>
+        <tr>
+          <td>Operational</td>
+          <td data-bind="text: isConstraintOperational"></td>
+          <td data-bind="text: constraintOperational"></td>
+        </tr>
+        <tr>
+          <td>Financial</td>
+          <td data-bind="text: isConstraintFinancial"></td>
+          <td data-bind="text: constraintFinancial"></td>
+        </tr>
+        <tr>
+          <td>Political</td>
+          <td data-bind="text: isConstraintPolitical"></td>
+          <td data-bind="text: constraintPolitical"></td>
+        </tr>
+      </table>
+      <h4>Action Plan</h4>
+      <table>
+        <tr>
+          <td>Vision:</td>
+          <td><span data-bind="text: actionVision"></span></td>
+        </tr>
+        <tr>
+          <td>First Steps:</td>
+          <td><span data-bind="text: actionFirstSteps"></span></td>
+        </tr>
+        <tr>
+          <td>Discomfort:</td>
+          <td><span data-bind="text: actionDiscomfort"></span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

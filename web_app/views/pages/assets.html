@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% block title %} Asset and Collection Management {% endblock %}
+{% block content %}
+<div id="form">
+  <div class="panel panel-default noPrint">
+      <div id="intent" class="panel-heading">
+          <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-intent">Intent - What is the intent of collections management?</a>
+              <span data-bind="visible: intentVM.isComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+          </h4>
+      </div>
+      <div id="collapse-intent" class="panel-collapse collapse">
+          <div class="panel-body">
+              <label>Socio-economic priority:</label><br />
+              <textarea cols="55" rows="3" data-bind="value: intentVM.socioeconomic, valueUpdate: 'keyup'" id="socioeconomic" placeholder="Please record the intent here"></textarea><br />
+              <label>Impact and timeframe:</label> <br />
+              <textarea cols="55" rows="3" data-bind="value: intentVM.impact, valueUpdate: 'keyup'" id="impact" placeholder="Please record the intent here"></textarea><br />
+              <label>Artistic/cultural positioning:</label> <br />
+              <textarea cols="55" rows="3" data-bind="value: intentVM.artistic, valueUpdate: 'keyup'" id="artistic" placeholder="Please record the intent here"></textarea><br />
+          </div>
+      </div>
+  </div>
+  <div class="panel panel-default noPrint">
+      <div id="customers" class="panel-heading">
+          <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-customers">Customers - Who are the target customer groups?</a>
+              <span data-bind="visible:customerGroupsVM.isComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+          </h4>
+      </div>
+      <div id="collapse-customers" class="panel-collapse collapse">
+          <div class="panel-body">
+              <ul class="list-group" data-bind="foreach: customerGroupsVM.customerGroups">
+                  <li class="list-group-item">
+                      <label>Customer Group <span data-bind="text:$index() + 1"></span></label>
+                      <textarea cols="55" rows="1" data-bind="value: description, valueUpdate: 'keyup', attr: { id: 'description-' + $index()}" placeholder="Please describe the customer group"></textarea>
+                      <a title="Remove Customer Group" data-bind="click: $root.customerGroupsVM.RemoveCustomerGroup, visible: $index() > 0">
+                          <span class="glyphicon glyphicon-remove-circle"></span>
+                      </a>
+                  </li>
+              </ul><!-- end customerGroupsVM.customerGroups -->
+              <button type="button" title="Add New Customer Group" class="pull-right btn btn-default" data-bind="click: customerGroupsVM.AddCustomerGroup">
+                  Add New Customer Group
+              </button>
+          </div>
+      </div>
+  </div>
+  <div class="panel panel-default noPrint">
+    <div id="collections" class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-collections">Collections - What collections are there to attract the customer groups?</a>
+        <span data-bind="visible:customerGroupsVM.isCollectionsComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+      </h4>
+    </div>
+    <div id="collapse-collections" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div data-bind="foreach: customerGroupsVM.customerGroups">
+          <fieldset data-bind="visible: description().length >= 3">
+            <legend><span data-bind="text: description"></span></legend>
+            <ul class="list-group" data-bind="foreach: $data.collectionsOfInterest">
+                <li class="list-group-item">
+                  <label>Collection <span data-bind="text:$index() + 1"></span></label>
+                  <textarea cols="55" rows="1" data-bind="value: $data.description, valueUpdate: 'keyup', attr: { id: 'collection-' + $index()}" placeholder="Please describe the collection"></textarea>
+                  <a title="Remove Collection" data-bind="click: $parent.RemoveCollection, visible: $index() > 0">
+                      <span class="glyphicon glyphicon-remove-circle"></span>
+                  </a>
+                </li>
+            </ul>
+            <button type="button" title="Add New Collection" class="pull-right btn btn-default" data-bind="click: $data.AddCollection">
+                Add New Collection
+            </button>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default noPrint">
+    <div id="constraints" class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-constraints">Constraints - What constraints impact the collections management?</a>
+        <span data-bind="visible:customerGroupsVM.isConstraintsComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+      </h4>
+    </div>
+    <div id="collapse-constraints" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div data-bind="foreach: customerGroupsVM.customerGroups">
+          <fieldset data-bind="visible: description().length >= 3">
+            <legend><span data-bind="text: description"></span></legend>
+            <ul class="list-group" data-bind="foreach: $data.collectionsOfInterest">
+              <li class="list-group-item">
+                <label><span data-bind="text: description"></span></label><br/>
+                <label>Operational:</label><br/>
+                <input type="radio" name="is-constraint-operational" data-bind="checked: isConstraintOperational, attr: { id: 'operational-yes-' + $parentContext.$index() + '-' + $index()}" value="Yes">Yes
+                <input type="radio" name="is-constraint-operational" data-bind="checked: isConstraintOperational, attr: { id: 'operational-no-' + $parentContext.$index() + '-' + $index()}" value="No">No<br/>
+                <textarea cols="55" rows="3" data-bind="value: constraintOperational, valueUpdate: 'keyup', visible: isConstraintOperational, attr: { id: 'operational-' + $parentContext.$index() + '-' + $index()}"></textarea><br/>
+                <label>Financial:</label><br/>
+                <input type="radio" name="is-constraint-financial" data-bind="checked: isConstraintFinancial, attr: { id: 'financial-yes-' + $parentContext.$index() + '-' + $index()}" value="Yes">Yes
+                <input type="radio" name="is-constraint-financial" data-bind="checked: isConstraintFinancial, attr: { id: 'financial-no-' + $parentContext.$index() + '-' + $index()}" value="No">No<br/>
+                <textarea cols="55" rows="3" id="financial" data-bind="value: constraintFinancial, valueUpdate: 'keyup', visible: isConstraintFinancial, attr: { id: 'financial-' + $parentContext.$index() + '-' + $index()}"></textarea><br/>
+                <label>Political:</label><br/>
+                <input type="radio" name="is-constraint-political" data-bind="checked: isConstraintPolitical, attr: { id: 'political-yes-' + $parentContext.$index() + '-' + $index()}" value="Yes">Yes
+                <input type="radio" name="is-constraint-political" data-bind="checked: isConstraintPolitical, attr: { id: 'political-no-' + $parentContext.$index() + '-' + $index()}" value="No">No<br/>
+                <textarea cols="55" rows="3" id="political" data-bind="value: constraintPolitical, valueUpdate: 'keyup', visible: isConstraintPolitical, attr: { id: 'political-' + $parentContext.$index() + '-' + $index()}"></textarea><br/>
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default noPrint">
+    <div id="action" class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-action">Action - What are the actions required to progress this?</a>
+        <span data-bind="visible:customerGroupsVM.isActionsComplete()" class="pull-right glyphicon glyphicon-ok"></span>
+      </h4>
+    </div>
+    <div id="collapse-action" class="panel-collapse collapse">
+      <div class="panel-body">
+        <div data-bind="foreach: customerGroupsVM.customerGroups">
+          <fieldset data-bind="visible: description().length >= 3">
+            <legend><span data-bind="text: description"></span></legend>
+            <ul class="list-group" data-bind="foreach: $data.collectionsOfInterest">
+              <li class="list-group-item">
+                <label><span data-bind="text: description"></span></label><br/>
+                <label>Vision:</label><br/>
+                <textarea cols="55" rows="3" data-bind="value: actionVision, valueUpdate: 'keyup',  attr: { id: 'vision-' + $parentContext.$index() + + $index()}" placeholder="What is the key sales line to make people enthused with doing this?"></textarea><br/>
+                <label>First Steps:</label><br/>
+                <textarea cols="55" rows="3" data-bind="value: actionFirstSteps, valueUpdate: 'keyup',  attr: { id: 'first-' + $parentContext.$index() + + $index()}" placeholder="What are the first things they need to do to start it off?"></textarea><br/>
+                <label>Discomfort:</label><br/>
+                <textarea cols="55" rows="3" data-bind="value: actionDiscomfort, valueUpdate: 'keyup',  attr: { id: 'discomfort-' + $parentContext.$index() + + $index()}" placeholder="How do they make whoever is comfortable with not doing it uncomfortable with the status quo?"></textarea><br/>
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block print %} {% include 'pages/assetsPrint.html' %} {% endblock %}
+{% block help %} {% include 'pages/assetsHelp.html' %} {% endblock %}
