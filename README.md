@@ -7,6 +7,6 @@ Deployment Environment
 
 Currently using
 ---
-* AngularJs 1.2.8
+* KnockoutJS 3.2.0
 * Bootstrap 3.0.3
 * Jinja2
