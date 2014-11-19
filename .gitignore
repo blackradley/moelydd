@@ -1,3 +1,4 @@
+_*.cmd
 *.suo
 *.user
 web_app/obj/
