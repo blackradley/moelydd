@@ -5,6 +5,8 @@ Deployment Environment
 ---
 * Google App Engine (Python 2.7)
 
+http://a.moelydd.appspot.com/ (=default)
+
 Currently using
 ---
 * KnockoutJS 3.2.0
