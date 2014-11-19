@@ -58,6 +58,3 @@ I could do self.redirect("/philanthropy") the outcome would be the same.
 class home(template):
     def get(self):
         return super(home, self).get('home')
-
-
- 
