@@ -1,5 +1,5 @@
 application: moelydd #.appspot.com
-version: b # a
+version: a # b  (a = live, b = test)
 runtime: python27
 api_version: 1
 threadsafe: true
