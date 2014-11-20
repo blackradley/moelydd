@@ -166,7 +166,27 @@ function Philanthropy() {
     self.intentVM = new IntentVM();
     self.themesVM = new ThemesVM();
     self.themesVM.AddTheme(); //There has to be at least one theme
+
+	self.save = function() {
+		var saveData = ko.toJSON(self);
+		localStorage.setItem('Philanthropy', saveData);
+	}
 }
 
 var philanthropy = new Philanthropy();
 ko.applyBindings(philanthropy);
+
+if (window.localStorage) {
+	var retrievedData = localStorage.getItem('Philanthropy');
+	retrievedData = JSON.parse(retrievedData);
+	if (retrievedData) {
+		ko.mapping.fromJS(retrievedData, null, philanthropy);
+	}
+}
+
+/*
+ * Event handler to save data to localStorage every time a field is unfocussed
+ */
+$("input, textarea, select").on("blur", function() {
+	philanthropy.save();
+});
