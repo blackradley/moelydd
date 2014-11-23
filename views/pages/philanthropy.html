@@ -60,7 +60,7 @@
     <div id="collapse-funding" class="panel-collapse collapse">
       <div class="panel-body">
         <div data-bind="foreach: themesVM.themes">
-          <fieldset data-bind="visible: description().length > 3">
+          <fieldset data-bind="visible: description().length > 3"><!--
             <legend><span data-bind="text: type"></span>: <span data-bind="text: $data.description"></span></legend>
             {% for source in funding_sources %}
               {% set short_source = source.split(' ', 1)[0].lower() %}
@@ -71,7 +71,7 @@
                   data-bind="value: fundingSources['{{ short_source }}'].source, valueUpdate: 'keyup', attr: { id: '{{ short_source }}-' + $index() }"
                   placeholder="Please explain how the funding source could address the theme"></textarea>
               </div>
-            {% endfor %}
+            {% endfor %}-->
           </fieldset>
         </div>
       </div>

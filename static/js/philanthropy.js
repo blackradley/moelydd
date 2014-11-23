@@ -63,10 +63,15 @@ var Theme = function () {
     self.type = ko.observable('');
     self.description = ko.observable('');
 
+    self.fundingSources = ko.observableArray();
+
     //Funding sources, created as a look up object, to save repetition, since there are 12 of them.
-    self.fundingSources = new Array("public", "trusts", "corporate", "community", "major", "patrons", "friends", "legacies", "membership", "object", "visitor", "crowd");
-    for (var i = 0; i < self.fundingSources.length; i++) {
-        self.fundingSources[self.fundingSources[i]] = new FundingSource(self.fundingSources[i]);
+    var fundingNames = new Array("public", "trusts", "corporate", "community", "major", "patrons", "friends", "legacies", "membership", "object", "visitor", "crowd");
+    //self.fundingSources = ko.observableArray('');
+    for (var i = 0; i < fundingNames.length; i++) {
+        self.fundingSources.push(new FundingSource(fundingNames[i]));
+        console.log('Added ');
+        //self.fundingSources[self.fundingSources[i]] = new FundingSource(self.fundingSources[i]);
     }
 
     //Constraints
@@ -177,11 +182,11 @@ var philanthropy = new Philanthropy();
 ko.applyBindings(philanthropy);
 
 if (window.localStorage) {
-	var retrievedData = localStorage.getItem('Philanthropy');
+/*	var retrievedData = localStorage.getItem('Philanthropy');
 	retrievedData = JSON.parse(retrievedData);
 	if (retrievedData) {
 		ko.mapping.fromJS(retrievedData, null, philanthropy);
-	}
+	}*/
 }
 
 /*
