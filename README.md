@@ -5,8 +5,7 @@ Deployment Environment
 ---
 * Google App Engine (Python 2.7)
 
-http://toolkits.blackradley.com/ and http://a.moelydd.appspot.com/ (=live / default)
-http://b.moelydd.appspot.com/ (=test)
+http://a.moelydd.appspot.com/ (=default)
 
 Currently using
 ---

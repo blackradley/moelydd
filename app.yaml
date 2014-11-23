@@ -1,11 +1,10 @@
 application: moelydd #.appspot.com
-version: b # b  (a = live, b = test)
+version: b # a
 runtime: python27
 api_version: 1
 threadsafe: true
 
 libraries:
-
 - name: jinja2
   version: latest
 

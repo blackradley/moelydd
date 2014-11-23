@@ -36,36 +36,36 @@ var CustomerGroup = function () {
     var self = this;
     self.description = ko.observable('');
     self.exhibitions = ko.observableArray([]);
-
+    
     self.AddExhibition = function () {
     	var exhibition = new Exhibition().venue('').description('');
     	self.exhibitions.push(exhibition);
     	//console.log('Added Exhibition')
     }
-
+    
     self.RemoveExhibition = function (record) {
         //console.log('Removing Exhibition');
         self.exhibitions.remove(record);
     };
-}
+} 
 
 // Which customer groups are being targeted? This is the list of targetted groups.
 function CustomerGroupsVM() {
 	var self = this;
     self.customerGroups = ko.observableArray([]);
-
+    
     self.AddCustomerGroup = function () {
     	var customerGroup = new CustomerGroup().description('');
     	customerGroup.AddExhibition(); // Every customer group needs a collection, otherwise there is no need for the customer group
         self.customerGroups.push(customerGroup);
         //console.log('Added Customer Group');
     };
-
+    
     self.RemoveCustomerGroup = function (record) {
         console.log('Removing Customer Group');
         self.customerGroups.remove(record);
     };
-
+    
     // Complete if the customer group description is more than 3 characters
     self.isComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
@@ -76,7 +76,7 @@ function CustomerGroupsVM() {
         }
         return true;
     });
-
+    
     // Complete if the exhibitions descriptions is more than 3 characters
     self.isExhibitionsComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
@@ -89,7 +89,7 @@ function CustomerGroupsVM() {
         }
         return true;
     });
-
+    
     // Complete if the priority descriptions is more than 3 characters
     self.isConstraintsComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
@@ -98,15 +98,15 @@ function CustomerGroupsVM() {
         		var collection = customerGroup.exhibitions()[j];
 	            if (ko.toJS(collection.constraintOperational().length) < 3)
 	                return false;
-	            if (ko.toJS(collection.constraintFinancial().length) < 3)
+	            if (ko.toJS(collection.constraintFinancial().length) < 3) 
 	                return false;
 	            if (ko.toJS(collection.constraintPolitical().length) < 3)
 	                return false;
         	}
         }
         return true;
-    });
-
+    });  
+    
     self.isActionsComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
         	var customerGroup = self.customerGroups()[i];
@@ -121,7 +121,7 @@ function CustomerGroupsVM() {
         	}
         }
         return true;
-    });
+    });   
 }
 
 function Exhibitions() {
@@ -129,27 +129,7 @@ function Exhibitions() {
 	self.intentVM = new IntentVM();
 	self.customerGroupsVM = new CustomerGroupsVM();
 	self.customerGroupsVM.AddCustomerGroup();
-
-	self.save = function() {
-		var saveData = ko.toJSON(self);
-		localStorage.setItem('Exhibitions', saveData);
-	}
 }
 
 var exhibitions = new Exhibitions();
 ko.applyBindings(exhibitions);
-
-if (window.localStorage) {
-	var retrievedData = localStorage.getItem('Exhibitions');
-	retrievedData = JSON.parse(retrievedData);
-	if (retrievedData) {
-		ko.mapping.fromJS(retrievedData, null, exhibitions);
-	}
-}
-
-/*
- * Event handler to save data to localStorage every time a field is unfocussed
- */
-$("input, textarea, select").on("blur", function() {
-	exhibitions.save();
-});

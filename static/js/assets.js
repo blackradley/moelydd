@@ -18,9 +18,9 @@
  *                                                                 |Actions - First Steps    |
  *                                                                 |Actions - Discomfort     |
  *                                                                 +-------------------------+
- *
+ *                                                                 
  * (diagram at http://www.asciiflow.com/#Draw7633834548132838218/1634459312)
- *
+ * 
  */
 
 // What are the goals or intents of the collections management
@@ -61,36 +61,36 @@ var CustomerGroup = function () {
     var self = this;
     self.description = ko.observable('');
     self.collectionsOfInterest = ko.observableArray([]);
-
+    
     self.AddCollection = function () {
     	var collectionOfInterest = new CollectionOfInterest().description('');
     	self.collectionsOfInterest.push(collectionOfInterest);
     	//console.log('Added Collection of Interest')
     }
-
+    
     self.RemoveCollection = function (record) {
         //console.log('Removing Collection Group');
         self.collectionsOfInterest.remove(record);
     };
-}
+} 
 
 // Which customer groups are being targeted.
 function CustomerGroupsVM() {
 	var self = this;
     self.customerGroups = ko.observableArray([]);
-
+    
     self.AddCustomerGroup = function () {
     	var customerGroup = new CustomerGroup().description('');
     	customerGroup.AddCollection(); // Every customer group needs a collection, otherwise there is no need for the customer group
         self.customerGroups.push(customerGroup);
         //console.log('Added Customer Group');
     };
-
+    
     self.RemoveCustomerGroup = function (record) {
         //console.log('Removing Customer Group');
         self.customerGroups.remove(record);
     };
-
+    
     // Complete if the customer group description is more than 3 characters
     self.isComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
@@ -101,7 +101,7 @@ function CustomerGroupsVM() {
         }
         return true;
     });
-
+    
     // Complete if the collections descriptions is more than 3 characters
     self.isCollectionsComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
@@ -114,7 +114,7 @@ function CustomerGroupsVM() {
         }
         return true;
     });
-
+    
     self.isConstraintsComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
         	var customerGroup = self.customerGroups()[i];
@@ -129,8 +129,8 @@ function CustomerGroupsVM() {
         	}
         }
         return true;
-    });
-
+    });  
+    
     self.isActionsComplete = ko.computed(function () {
         for (var i = 0; i < self.customerGroups().length; i++) {
         	var customerGroup = self.customerGroups()[i];
@@ -145,7 +145,7 @@ function CustomerGroupsVM() {
         	}
         }
         return true;
-    });
+    });   
 }
 
 // The assets plan has intents and is directed at customer groups
@@ -154,27 +154,7 @@ function Assets() {
 	self.intentVM = new IntentVM();
 	self.customerGroupsVM = new CustomerGroupsVM();
 	self.customerGroupsVM.AddCustomerGroup();
-
-	self.save = function() {
-		var saveData = ko.toJSON(self);
-		localStorage.setItem('Assets', saveData);
-	}
 }
 
 var assets = new Assets();
 ko.applyBindings(assets);
-
-if (window.localStorage) {
-	var retrievedData = localStorage.getItem('Assets');
-	retrievedData = JSON.parse(retrievedData);
-	if (retrievedData) {
-		ko.mapping.fromJS(retrievedData, null, assets);
-	}
-}
-
-/*
- * Event handler to save data to localStorage every time a field is unfocussed
- */
-$("input, textarea, select").on("blur", function() {
-	assets.save();
-});
