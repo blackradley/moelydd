@@ -47,6 +47,7 @@
         </div>
         <div class="panel-group col-md-8" id="accordion">
           {% block content %} CONTENT HERE {% endblock %}
+          <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
           {% block print %} {% endblock %}
         </div>
         <div id="help" class="col-md-4 noPrint">

@@ -26,9 +26,9 @@
     <table>
     {% for source in funding_sources %}
       {% set short_source = source.split(' ', 1)[0].lower() %}
-      <tr data-bind="visible: fundingSources['{{ short_source }}'].isSource">
+      <tr data-bind="visible: fundingSources()[{{ loop.index-1 }}].isSource">
         <td>{{ source }}:</td>
-        <td data-bind="text: fundingSources['{{ short_source }}'].source" ></td>
+        <td data-bind="text: fundingSources()[{{ loop.index-1 }}].source" ></td>
       </tr>
     {% endfor %}
     </table>
