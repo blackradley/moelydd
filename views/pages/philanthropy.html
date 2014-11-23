@@ -62,16 +62,97 @@
         <div data-bind="foreach: themesVM.themes">
           <fieldset data-bind="visible: description().length > 3">
             <legend><span data-bind="text: type"></span>: <span data-bind="text: $data.description"></span></legend>
-            {% for source in funding_sources %}
-              {% set short_source = source.split(' ', 1)[0].lower() %}
-              <label>{{ source }}</label>
-              <input type="checkbox" data-bind="checked: $data.fundingSources()[{{ loop.index-1 }}].isSource" /><br/>
-              <div data-bind="visible: $data.fundingSources()[{{ loop.index-1 }}].isSource">
+
+              <label>Public Grants</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsPublic" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsPublic">
                 <textarea cols="55" rows="3" 
-                  data-bind="value: $data.fundingSources()[{{ loop.index-1 }}].source, valueUpdate: 'keyup', attr: { id: '{{ short_source }}-' + $index() }"
+                  data-bind="value: $data.fundingSourcePublic, valueUpdate: 'keyup', attr: { id: 'public-' + $index() }"
                   placeholder="Please explain how the funding source could address the theme"></textarea>
               </div>
-            {% endfor %}
+              <label>Trusts and Foundations</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsTrusts" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsTrusts">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceTrusts, valueUpdate: 'keyup', attr: { id: 'trusts-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+
+              <label>Corporate Giving</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsCorporate" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsCorporate">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceCorporate, valueUpdate: 'keyup', attr: { id: 'corporate-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+              <label>Community Giving</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsCommunity" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsCommunity">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceCommunity, valueUpdate: 'keyup', attr: { id: 'community-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+
+              <label>Major Donors</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsMajor" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsMajor">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceMajor, valueUpdate: 'keyup', attr: { id: 'major-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+              <label>Patrons</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsPatrons" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsPatrons">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourcePatrons, valueUpdate: 'keyup', attr: { id: 'patrons-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+
+              <label>Friends</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsFriends" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsFriends">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceFriends, valueUpdate: 'keyup', attr: { id: 'friends-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+              <label>Legacies</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsLegacies" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsLegacies">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceLegacies, valueUpdate: 'keyup', attr: { id: 'legacies-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+
+              <label>Membership</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsMembership" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsMembership">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceMembership, valueUpdate: 'keyup', attr: { id: 'membership-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+              <label>Object Sponsorship</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsObject" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsObject">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceObject, valueUpdate: 'keyup', attr: { id: 'object-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+
+             <label>Visitor Donations</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsVisitor" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsVisitor">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceVisitor, valueUpdate: 'keyup', attr: { id: 'visitor-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+              <label>Crowd Funding</label>
+              <input type="checkbox" data-bind="checked: $data.fundingSourceIsCrowd" /><br/>
+              <div data-bind="visible: $data.fundingSourceIsCrowd">
+                <textarea cols="55" rows="3" 
+                  data-bind="value: $data.fundingSourceIsCrowd, valueUpdate: 'keyup', attr: { id: 'crowd-' + $index() }"
+                  placeholder="Please explain how the funding source could address the theme"></textarea>
+              </div>
+
           </fieldset>
         </div>
       </div>
@@ -131,6 +212,4 @@
   </div>
 </div>
 {% endblock %}
-{% block print %} {% include 'pages/philanthropyPrint.html' %} {% endblock %}
-{% block help %} {% include 'pages/philanthropyHelp.html' %} {% endblock %}
-                
+              

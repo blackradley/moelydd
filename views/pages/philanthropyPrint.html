@@ -24,13 +24,13 @@
     </h3>
     <h4>Funding</h4>
     <table>
-    {% for source in funding_sources %}
-      {% set short_source = source.split(' ', 1)[0].lower() %}
-      <tr data-bind="visible: fundingSources()[{{ loop.index-1 }}].isSource">
+
+      <tr data-bind="visible: $data.fundingSourceIsPublic">
         <td>{{ source }}:</td>
-        <td data-bind="text: fundingSources()[{{ loop.index-1 }}].source" ></td>
+        <td data-bind="text: $data.fundingSourcePublic" ></td>
       </tr>
-    {% endfor %}
+
+
     </table>
     <h4>Constraints</h4>
     <table>
