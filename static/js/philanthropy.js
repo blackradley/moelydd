@@ -46,6 +46,16 @@ function IntentVM() {
 }
 
 /*
+ * Object of managing the funding sources.
+ */
+var FundingSource = function (type) {
+    var self = this;
+    self.type = type;
+    self.isSource = ko.observable(false);
+    self.source = ko.observable('');
+};
+
+/*
  * A single theme and it's funding sources
  */
 var Theme = function () {
@@ -53,43 +63,18 @@ var Theme = function () {
     self.type = ko.observable('');
     self.description = ko.observable('');
 
-    //Funding sources
-    self.fundingSourceIsPublic = ko.observable(false);
-    self.fundingSourcePublic = ko.observable('');
-    self.fundingSourceIsTrusts = ko.observable(false);
-    self.fundingSourceTrusts = ko.observable('');
-
-    self.fundingSourceIsCorporate = ko.observable(false);
-    self.fundingSourceCorporate = ko.observable('');
-    self.fundingSourceIsCommunity = ko.observable(false);
-    self.fundingSourceCommunity = ko.observable('');
-
-    self.fundingSourceIsMajor = ko.observable(false);
-    self.fundingSourceMajor = ko.observable('');
-    self.fundingSourceIsPatrons = ko.observable(false);
-    self.fundingSourcePatrons = ko.observable('');
-
-    self.fundingSourceIsFriends = ko.observable(false);
-    self.fundingSourceFriends = ko.observable('');
-    self.fundingSourceIsLegacies = ko.observable(false);
-    self.fundingSourceLegacies = ko.observable('');
-
-    self.fundingSourceIsMembership = ko.observable(false);
-    self.fundingSourceMembership = ko.observable('');
-    self.fundingSourceIsObject = ko.observable(false);
-    self.fundingSourceObject = ko.observable('');
-
-    self.fundingSourceIsVisitor = ko.observable(false);
-    self.fundingSourceVisitor = ko.observable('');
-    self.fundingSourceIsCrowd = ko.observable(false);
-    self.fundingSourceCrowd = ko.observable('');
+    //Funding sources, created as a look up object, to save repetition, since there are 12 of them.
+    self.fundingSources = new Array("public", "trusts", "corporate", "community", "major", "patrons", "friends", "legacies", "membership", "object", "visitor", "crowd");
+    for (var i = 0; i < self.fundingSources.length; i++) {
+        self.fundingSources[self.fundingSources[i]] = new FundingSource(self.fundingSources[i]);
+    }
 
     //Constraints
-    self.isConstraintOperational = ko.observable(false);
+    self.isConstraintOperational = ko.observable();
     self.constraintOperational = ko.observable('');
-    self.isConstraintFinancial = ko.observable(false);
+    self.isConstraintFinancial = ko.observable();
     self.constraintFinancial = ko.observable('');
-    self.isConstraintPolitical = ko.observable(false);
+    self.isConstraintPolitical = ko.observable();
     self.constraintPolitical = ko.observable('');
 
     //Actions
@@ -129,26 +114,22 @@ function ThemesVM() {
     // Complete if funding is complete.  At least one check box must be checked
     // and the associated text field must have more than 3 characters in it.
     self.isFundingComplete = ko.computed(function () {
-        var returnBoolean = false;
         for (var i = 0; i < self.themes().length; i++) {
+            var countSources = 0;
+            for (fundingSource in self.themes()[i].fundingSources) {
                 //console.log("Funding Source " + ko.toJS(self.themes()[i].fundingSources[fundingSource].source));
-                var theme = self.themes()[i];
-                // Make sure one is checked.
-                if (theme.fundingSourceIsPublic || theme.fundingSourceIsTrusts) returnBoolean = true;
-                // Make sure that the information is completed.
-                if (IsSourceInfoComplete(theme.fundingSourceIsPublic, theme.fundingSourcePublic) &&
-                        IsSourceInfoComplete(theme.fundingSourceIsTrusts, theme.fundingSourceTrusts))
-                    returnBoolean = false;
+                var isSource = ko.toJS(self.themes()[i].fundingSources[fundingSource].isSource);
+                var source = ko.toJS(self.themes()[i].fundingSources[fundingSource].source);
+                if ((isSource) && (source.length < 3))
+                    return false;
+                if (isSource)
+                    countSources++;
+            }
+            if (countSources === 0)
+                return false;
         }
-        return returnBoolean;
+        return true;
     });
-
-    function IsSourceInfoComplete(isSource, sourceDescription){
-        var isSource = ko.toJS(isSource);
-        var source = ko.toJS(sourceDescription);
-        if ((isSource) && (source.length > 3)) return true;
-        return false;
-    }
 
     // Complete if constraints have more then 3 characters in them.
     self.isConstraintsComplete = ko.computed(function () {
@@ -198,9 +179,9 @@ ko.applyBindings(philanthropy);
 if (window.localStorage) {
 	var retrievedData = localStorage.getItem('Philanthropy');
 	retrievedData = JSON.parse(retrievedData);
-/*	if (retrievedData) {
+	if (retrievedData) {
 		ko.mapping.fromJS(retrievedData, null, philanthropy);
-	}*/
+	}
 }
 
 /*

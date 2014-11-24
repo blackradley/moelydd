@@ -21,6 +21,19 @@ class base(webapp2.RequestHandler):
         else:
             self.response.set_status(500)
 
+fundingSources = ["Public Grants", 
+    "Trusts and Foundations",
+    "Corporate Giving",
+    "Community Giving",
+    "Major Donors",
+    "Patrons",
+    "Friends",
+    "Legacies",
+    "Membership",
+    "Object Sponsorship",
+    "Visitor Donations",
+    "Crowd Funding"] 
+
 '''
 Show the template based on the URL (path).
 '''
@@ -28,7 +41,8 @@ class template(base):
     def get(self, path): 
         template_values = {'title': path.capitalize(), 
                            'navigation': self.navigation,
-                           'active_page': path.lower()}
+                           'active_page': path.lower(),
+                           'funding_sources': fundingSources}
         logging.info('path: ' +  path)
         template = config.jinja_environment.get_template('pages/' + path + '.html')
         self.response.out.write(template.render(template_values))   
